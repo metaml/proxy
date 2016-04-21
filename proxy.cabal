@@ -1,0 +1,55 @@
+name:                proxy
+version:             0.1.0.0
+synopsis:            HTTP proxy for development and testing
+description:         please see README.md
+homepage:            https://github.com/metaml/proxy
+license:             BSD3
+license-file:        LICENSE
+author:              M. Lee
+maintainer:          metaml@gmail.com
+copyright:           2016 Michael Lee
+category:            Web
+build-type:          Simple
+-- extra-source-files:
+cabal-version:       >=1.10
+
+library
+  hs-source-dirs:      src
+  exposed-modules:     Network.Proxy
+                     , Network.Pipes
+  default-language:    Haskell2010
+  build-depends:       base >= 4.7 && < 5
+                     , blaze-builder
+                     , bytestring
+                     , hashtables
+                     , http-types
+                     , lens
+                     , pipes
+                     , pipes-wai
+                     , random
+                     , time
+                     , utf8-string
+                     , wai
+                     , warp
+                     , wreq
+
+executable proxy
+  hs-source-dirs:      app
+  main-is:             proxy.hs
+  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  default-language:    Haskell2010
+  build-depends:       base
+                     , proxy
+
+test-suite proxy-test
+  type:                exitcode-stdio-1.0
+  hs-source-dirs:      test
+  main-is:             Spec.hs
+  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  default-language:    Haskell2010
+  build-depends:       base
+                     , proxy
+
+source-repository head
+  type:     git
+  location: https://github.com/metaml/proxy
