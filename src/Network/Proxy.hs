@@ -4,12 +4,11 @@ module Network.Proxy where
 import Blaze.ByteString.Builder (fromByteString)
 import Data.ByteString.Lazy (toStrict)
 import Network.HTTP.Types (status200)
-import Network.HTTP.Types (status200)
 import Network.Wai (requestHeaders)
 import Network.Wai.Handler.Warp (run)
 import Pipes ((>->), yield)
 import Pipes.Wai (Flush(..), responseProducer)
-import System.Random
+import System.Random (randomRIO)
 import qualified Network.Pipes as NP
 import qualified Pipes.Prelude as P
 
@@ -22,8 +21,7 @@ server port = do
                       , "twitter.com", "zappos.com", "zelda.com"]
   run port $ \req onResponse -> do
     ind <- randomRIO (0, (length urls) - 1)
-    let url = urls !! ind
     let res = do
-          yield url >-> NP.get >-> NP.ret >-> P.map (Chunk . fromByteString . toStrict)
+          yield (urls !! ind) >-> NP.get >-> P.map (Chunk . fromByteString . toStrict)
           yield Flush
     onResponse (responseProducer status200 (requestHeaders req) res)

@@ -1,29 +1,19 @@
 {-# language OverloadedStrings, ScopedTypeVariables #-}
 module Network.Pipes where
 
-import Blaze.ByteString.Builder (copyByteString, fromByteString)
 import Control.Exception (try, throwIO)
 import Control.Lens ((^.))
-import Control.Monad (forever, unless)
+import Control.Monad (unless)
 import Data.ByteString.Lazy (ByteString, toStrict)
-import Network.HTTP.Types (status200)
-import Network.Wai (Application, pathInfo, requestHeaders, responseBuilder)
-import Pipes (Consumer, Pipe, Producer, (>->), (>~), await, cat, lift, runEffect, yield)
+import Pipes (Consumer, Pipe, (>->), (>~), await, lift, yield)
 import qualified GHC.IO.Exception as G
 import qualified Network.Wreq as W
-import qualified Pipes as P
-import qualified Pipes.Prelude as P
 
 get :: Pipe String ByteString IO ()
 get = do
   url <- await
   res <- lift $ W.get url
   yield $ res ^. W.responseBody
-
-ret :: Pipe ByteString ByteString IO ()
-ret = do
-  bs <- await
-  yield bs
 
 printc :: Consumer ByteString IO ()
 printc = do
