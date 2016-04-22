@@ -7,9 +7,9 @@ To avoid fetching URLs from clients' sites, "HTTP" Proxy was written, in Haskell
 To compile the code, the following prerequisite is required:
 
 1. haskell stack: http://docs.haskellstack.org/en/stable/README/
-   * install stack
+   * install **stack**
 
-Compile the code with stack as in the following:
+Use **stack** Compile the code:
 
 1. stack setup
 2. stack build
