@@ -23,6 +23,7 @@ library
                      , bytestring
                      , hashtables
                      , http-types
+                     , io-memoize
                      , lens
                      , pipes
                      , pipes-wai

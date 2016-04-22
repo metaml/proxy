@@ -2,6 +2,7 @@
 module Network.Proxy where
 
 import Blaze.ByteString.Builder (fromByteString)
+import Control.Concurrent.Cache (newCache)
 import Data.ByteString.Lazy (toStrict)
 import Network.HTTP.Types (status200)
 import Network.Wai (requestHeaders)
@@ -19,9 +20,11 @@ server port = do
                       , "duckduckgo.com", "ebay.com", "fotolog.com"
                       , "imgur.com", "netflix.com", "shutterstock.com"
                       , "twitter.com", "zappos.com", "zelda.com"]
+  cache <- newCache
   run port $ \req onResponse -> do
     ind <- randomRIO (0, (length urls) - 1)
-    let res = do
-          yield (urls !! ind) >-> NP.get >-> P.map (Chunk . fromByteString . toStrict)
+    let url = (urls !! ind)
+        res = do
+          yield (url, cache) >-> NP.get >-> P.map (Chunk . fromByteString . toStrict)
           yield Flush
     onResponse (responseProducer status200 (requestHeaders req) res)

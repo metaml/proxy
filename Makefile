@@ -25,8 +25,11 @@ clobber: clean
 	rm -rf .stack-work
 
 APP ?= proxy
-run: # run $APP where APP is an env. var.
+run: ## run $APP for testing where APP is an env. var.
 	stack exec ${APP}
+
+proxy: ## run proxy
+	./bin/proxy -threaded +RTS -N -H2G
 
 # bin dir
 VER = $(shell stack ghc -- --version | awk '{print $$NF}')

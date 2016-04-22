@@ -4,15 +4,16 @@ module Network.Pipes where
 import Control.Exception (try, throwIO)
 import Control.Lens ((^.))
 import Control.Monad (unless)
+import Control.Concurrent.Cache (Cache, fetch)
 import Data.ByteString.Lazy (ByteString, toStrict)
 import Pipes (Consumer, Pipe, (>->), (>~), await, lift, yield)
 import qualified GHC.IO.Exception as G
 import qualified Network.Wreq as W
 
-get :: Pipe String ByteString IO ()
+get :: Pipe (String, Cache (W.Response ByteString)) ByteString IO ()
 get = do
-  url <- await
-  res <- lift $ W.get url
+  (url, cache) <- await
+  res <- lift $ fetch cache (W.get url)
   yield $ res ^. W.responseBody
 
 printc :: Consumer ByteString IO ()
