@@ -9,7 +9,7 @@ To compile the code, the following prerequisite is required:
 1. haskell stack: http://docs.haskellstack.org/en/stable/README/
    * install stack
 
-Compile code with stack as in the following:
+Compile the code with stack as in the following:
 
 1. stack setup
 2. stack build
