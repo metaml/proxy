@@ -10,6 +10,7 @@ To compile the code, the following prerequisite is required:
    * install stack
 
 Compile code with stack as in the following:
+
 1. stack setup
 2. stack build
 3. stack exec proxy
