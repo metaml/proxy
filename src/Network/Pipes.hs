@@ -7,14 +7,17 @@ import Control.Monad (unless)
 import Control.Concurrent.Cache (Cache, fetch)
 import Data.ByteString.Lazy (ByteString, toStrict)
 import Pipes (Consumer, Pipe, (>->), (>~), await, lift, yield)
+import Network.Wreq (Response, defaults, getWith, responseBody)
+import Network.Wreq.Types (redirects)
 import qualified GHC.IO.Exception as G
-import qualified Network.Wreq as W
 
-get :: Pipe (String, Cache (W.Response ByteString)) ByteString IO ()
+
+get :: Pipe (String, Cache (Response ByteString)) ByteString IO ()
 get = do
   (url, cache) <- await
-  res <- lift $ fetch cache (W.get url)
-  yield $ res ^. W.responseBody
+  let opts = defaults {redirects = 3}
+  res <- lift $ fetch cache (getWith opts url)
+  yield $ res ^. responseBody
 
 printc :: Consumer ByteString IO ()
 printc = do

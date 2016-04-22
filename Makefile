@@ -6,15 +6,19 @@ dev: ## reactive build
 dev: clean buildc
 
 build: ## build
-build: bin
-	stack build
+build: bin clean
+	stack build --ghc-options=-O2
 
 buildc: ## reactive build
-buildc: bin
+buildc: bin clean
 	stack build --file-watch
 
+builds: ## build with static linking
+builds: bin claen
+	stack build --ghc-options='-optl-static -optl-pthread' --force-dirty
+
 buildv: ## build verbosely
-buildv: bin
+buildv: bin clean
 	stack build --verbose
 
 clean: ## clean

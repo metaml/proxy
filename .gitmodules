@@ -1,0 +1,3 @@
+[submodule "lib/docker"]
+	path = lib/docker
+	url = git@gitlab.com:metaml/docker
