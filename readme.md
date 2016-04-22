@@ -1,6 +1,6 @@
 ### HTTP **Proxy** for Testing and Development
 
-To avoid fetching URLs from clients' sites, this proxy was written, in Haskell, to fetch arbitrary pages regardless of the URL. Configure Proxy as an HTTP proxy and it'll randomly fetch pages from a set currently defined with the source code. Moreover, it caches responses and in general fetches pages once using the cache thereafter.
+To avoid fetching URLs from clients' sites, HTTP this proxy was written, in Haskell, to fetch arbitrary pages regardless of a URL. Configure your code to use Proxy as an HTTP proxy. Said proxy randomly fetches pages from a set of URLs currently defined within the source code. Moreover, it caches responses and in general fetches pages once using the cache thereafter.
 
 ### Building Proxy
 
